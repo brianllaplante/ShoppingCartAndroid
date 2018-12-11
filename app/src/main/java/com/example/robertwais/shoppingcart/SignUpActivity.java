@@ -9,6 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import Firebase.FirebaseService;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -24,23 +27,26 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        usernameInput = (EditText) findViewById(R.id.usernameInput);
-        passwordInput = (EditText) findViewById(R.id.passwordInput);
 
-        createAccount = (Button) findViewById(R.id.createAccountButton);
+        usernameInput = findViewById(R.id.usernameInput);
+        passwordInput = findViewById(R.id.passwordInput);
+
+        createAccount = findViewById(R.id.createAccountButton);
         createAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                username = usernameInput.getText().toString();
-                password = passwordInput.getText().toString();
-                Back();
+                @Override
+                public void onClick(View view) {
+                    username = usernameInput.getText().toString();
+                    password = passwordInput.getText().toString();
+                    if (!(username.equals("") || password.equals(""))) {
+                        FirebaseService.getInstance().signUp(username, password, SignUpActivity.this);
+                        Toast.makeText(SignUpActivity.this, "Enter E-Mail and Password", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUpActivity.this, "Enter E-Mail and Password", Toast.LENGTH_SHORT).show();
+                    }
 
-            }
+
+                }
         });
-    }
-    public void Back(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
 }
